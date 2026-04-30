@@ -1,7 +1,7 @@
-import type { Request, Response } from "express";
-import express from "express";
+import express, { type Request, type Response } from "express";
 import { notFound } from "./middlewares/notFound.js";
 import "dotenv/config";
+import "./database/db.js";
 
 import { logger } from "./helpers/logger.js";
 const app = express();
