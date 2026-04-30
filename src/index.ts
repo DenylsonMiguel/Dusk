@@ -3,20 +3,20 @@ import express from "express";
 import { notFound } from "./middlewares/notFound.js";
 import "dotenv/config";
 
-import app from "./helpers/app.js";
-const server = express();
-server.use(express.json());
+import { logger } from "./helpers/logger.js";
+const app = express();
+app.use(express.json());
 
-server.get("/health", (req: Request, res: Response) => {
+app.get("/health", (req: Request, res: Response) => {
     res.json({ status: "ok" });
 });
 
-server.use(notFound);
+app.use(notFound);
 
 if (!process.env.PORT) {
-    app.error("missing PORT");
-    throw new Error("enviorment variable PORT is undefined");
+    logger.error("missing PORT");
+    throw new Error("enviornment variable PORT is undefined");
 }
-server.listen(process.env.PORT, () => {
-    app.log(`Server started on port ${process.env.PORT}`);
+app.listen(process.env.PORT, () => {
+    logger.log(`Server started on port ${process.env.PORT}`);
 });
