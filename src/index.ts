@@ -15,7 +15,7 @@ app.use(notFound);
 
 if (!process.env.PORT) {
     logger.error("missing PORT");
-    throw new Error("enviornment variable PORT is undefined");
+    throw new Error("environment variable PORT is undefined");
 }
 app.listen(process.env.PORT, () => {
     logger.log(`Server started on port ${process.env.PORT}`);

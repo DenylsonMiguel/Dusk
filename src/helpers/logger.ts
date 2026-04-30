@@ -3,6 +3,6 @@ export const logger = {
         console.log(`[LOG] - ${message}`);
     },
     error(message: string) {
-        console.log(`[ERROR] - ${message}`);
+        console.error(`[ERROR] - ${message}`);
     },
 };
