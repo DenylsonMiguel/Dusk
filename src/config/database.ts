@@ -9,6 +9,6 @@ export async function initDb() {
         logger.info("Database initialized successfully");
     } catch (err) {
         logger.error(`Error initializing database: ${err}`);
-        throw new Error("Error initializing database");
+        throw new Error("Error initializing database", { cause: err });
     }
 }

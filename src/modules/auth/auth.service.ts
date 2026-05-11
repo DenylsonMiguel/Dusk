@@ -1,5 +1,5 @@
 import { Conflict } from "../../core/errors/conflict.js";
-import type { PublicUser, User, UserResponseDTO } from "../../entities/user.js";
+import type { PublicUser, User } from "../../entities/user.js";
 import type { UserRepository } from "../../repositories/user/repository.js";
 import { toPublic } from "../../utils/toPublic.js";
 import bcrypt from "bcryptjs";

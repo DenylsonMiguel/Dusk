@@ -15,7 +15,7 @@ export class UserRepository implements UserDomain {
             };
         } catch (err) {
             logger.error(`Error creating user: ${err}`);
-            throw new Error("Error creating user");
+            throw new Error("Error creating user", { cause: err });
         }
     }
 
@@ -30,7 +30,7 @@ export class UserRepository implements UserDomain {
             }));
         } catch (err) {
             logger.error(`Error finding users: ${err}`);
-            throw new Error("Error finding users");
+            throw new Error("Error finding users", { cause: err });
         }
     }
 
@@ -46,7 +46,7 @@ export class UserRepository implements UserDomain {
             };
         } catch (err) {
             logger.error(`Error finding user by email: ${err}`);
-            throw new Error("Error finding user by email");
+            throw new Error("Error finding user by email", { cause: err });
         }
     }
 }

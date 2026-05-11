@@ -1,6 +1,6 @@
 {
     "name": "dusk",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "description": "Time to sleep",
     "homepage": "https://github.com/DenylsonMiguel/Dusk#readme",
     "bugs": {
@@ -18,7 +18,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node dist/index.js",
         "build": "tsc",
-        "dev": "tsx watch src/index.ts"
+        "dev": "tsx watch src/index.ts",
+        "lint": "eslint ."
     },
     "dependencies": {
         "bcryptjs": "^3.0.3",
@@ -31,11 +32,15 @@
         "zod": "^4.4.3"
     },
     "devDependencies": {
+        "@eslint/js": "^10.0.1",
         "@types/cors": "^2.8.19",
         "@types/express": "^5.0.6",
         "@types/morgan": "^1.9.10",
         "@types/node": "^25.6.0",
+        "eslint": "^10.3.0",
+        "globals": "^17.6.0",
         "tsx": "^4.21.0",
-        "typescript": "^6.0.3"
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.59.2"
     }
 }
