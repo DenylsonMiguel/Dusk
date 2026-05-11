@@ -31,7 +31,6 @@ The app prevents users from casually ignoring bedtime by using sequence-based in
 - Node.js 24 LTS
 - Yarn 1.22.22
 
-
 ## Installation
 
 ```bash
@@ -92,6 +91,5 @@ This ensured consistent behavior during both development and production builds.
 ## Next Steps
 
 - Add Swagger/OpenAPI documentation.
-- Add automated tests.
 - Implement sleep logging system
 - Complete authentication
