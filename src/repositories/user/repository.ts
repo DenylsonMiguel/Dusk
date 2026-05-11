@@ -1,42 +1,52 @@
 import { type UserDomain } from "./domain.js";
-import { User, type UserResponseDTO } from "@/entities/user.js";
-import db, { saveDB } from "@/database/db.js";
-import { logger } from "@/helpers/logger.js";
+import { User, type UserResponseDTO } from "../../entities/user.js";
+import { logger } from "../../helpers/logger.js";
+import { UserModel } from "../../models/user.js";
 
 export class UserRepository implements UserDomain {
     async create(user: User): Promise<UserResponseDTO> {
-        if (!process.env.DB_PATH) {
-            logger.error(
-                "Database path is not defined in environment variables",
-            );
-            throw new Error(
-                "Database path is not defined in environment variables",
-            );
+        try {
+            const createdUser = await UserModel.create(user);
+            return {
+                _id: createdUser._id.toString(),
+                name: createdUser.name,
+                email: createdUser.email,
+                password: createdUser.password,
+            };
+        } catch (err) {
+            logger.error(`Error creating user: ${err}`);
+            throw new Error("Error creating user");
         }
-
-        db.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [
-            user.name,
-            user.email,
-            user.password,
-        ]);
-
-        const result = db.exec("SELECT last_insert_rowid() as id");
-        const id = result[0]!.values[0]![0] as number;
-
-        await saveDB(process.env.DB_PATH);
-
-        return {
-            id,
-            name: user.name,
-            email: user.email,
-            password: user.password,
-        };
     }
 
-    async findAll(): Promise<UserResponseDTO[]> {}
+    async findAll(): Promise<UserResponseDTO[]> {
+        try {
+            const users = await UserModel.find();
+            return users.map((user) => ({
+                _id: user._id.toString(),
+                name: user.name,
+                email: user.email,
+                password: user.password,
+            }));
+        } catch (err) {
+            logger.error(`Error finding users: ${err}`);
+            throw new Error("Error finding users");
+        }
+    }
 
     async findByEmail(email: string): Promise<UserResponseDTO | null> {
-        // Implement the logic to find a user by email in the database
-        throw new Error("Method not implemented.");
+        try {
+            const user = await UserModel.findOne({ email });
+            if (!user) return null;
+            return {
+                _id: user._id.toString(),
+                name: user.name,
+                email: user.email,
+                password: user.password,
+            };
+        } catch (err) {
+            logger.error(`Error finding user by email: ${err}`);
+            throw new Error("Error finding user by email");
+        }
     }
 }

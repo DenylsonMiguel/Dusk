@@ -1,4 +1,4 @@
-import { User, type UserResponseDTO } from "@/entities/user.js";
+import { User, type UserResponseDTO } from "../../entities/user.js";
 
 export interface UserDomain {
     create(user: User): Promise<UserResponseDTO>;

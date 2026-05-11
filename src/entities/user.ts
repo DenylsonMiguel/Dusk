@@ -7,10 +7,14 @@ export class User {
 }
 
 export type UserResponseDTO = {
-    id: number;
+    _id: string;
     name: string;
     email: string;
     password: string;
 };
 
-export type PublicUser = Omit<UserResponseDTO, "password">;
+export type PublicUser = {
+    id: string;
+    name: string;
+    email: string;
+};
