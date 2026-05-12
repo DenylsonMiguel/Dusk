@@ -1,7 +1,6 @@
 import z from "zod";
 
-const createUserSchema = z.object({
-    name: z.string().trim().min(3, "Very short name").max(50, "Very long name"),
+const loginSchema = z.object({
     email: z.email().max(50, "Email too long"),
     password: z
         .string()
@@ -10,4 +9,4 @@ const createUserSchema = z.object({
         .max(30, "Password too long"),
 });
 
-export default createUserSchema;
+export default loginSchema;
