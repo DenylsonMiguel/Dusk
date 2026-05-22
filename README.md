@@ -18,12 +18,19 @@ The app prevents users from casually ignoring bedtime by using sequence-based in
 
 <p>
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
+
   
   <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" />
   
   <img src="https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white" />
   
   <img src="https://img.shields.io/badge/Zod-3068B7?style=for-the-badge&logo=zod&logoColor=white" />
+  
+  <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white" />
+  
+  <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black" />
+  
+  <img src="https://img.shields.io/badge/YAML-CB171E?style=for-the-badge&logo=yaml&logoColor=white" />
 </p>
 
 ## Requirements
@@ -53,6 +60,8 @@ cp .env.example .env
 PORT=3000
 DB_URI=<your_mongodb_connection_string>
 CORS=http://localhost:5173
+ACCESS_SECRET=<your_access_token_secret_key>
+REFRESH_SECRET=<your_refresh_token_secret_key>
 ```
 
 ## Running
@@ -67,6 +76,16 @@ If everything is working correctly, you should see something similar to:
 [LOG] - Server started on port 3000
 [LOG] - Database initialized successfully
 ```
+
+## API Documentation
+
+Once the server is running, you can access the interactive API documentation at:
+
+```
+http://localhost:3000/docs
+```
+
+This Swagger UI interface allows you to explore all available endpoints, test requests, and view the complete API specification in real-time.
 
 ## Problems Faced
 
@@ -90,6 +109,6 @@ This ensured consistent behavior during both development and production builds.
 
 ## Next Steps
 
-- Add Swagger/OpenAPI documentation.
 - Implement sleep logging system
-- Complete authentication
+- Implement user management sytem
+- Add Docker
