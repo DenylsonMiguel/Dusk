@@ -1,0 +1,148 @@
+openapi: "3.0.0"
+info:
+  title: "Dusk API"
+  description: "A sleep management application designed to help users maintain a healthy sleep schedule"
+  version: "0.1.0"
+
+paths:
+  /health:
+    get:
+      summary: "Check the health status of the API"
+      responses:
+        "200":
+          description: "Status is ok"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+
+  /auth/register:
+    post:
+      summary: "Create a new user"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterUser"
+      responses:
+        "201":
+          description: "User created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+  /auth/login:
+    post:
+      summary: "Authenticate a user and return JWT Refresh and Access token"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginUser"
+      responses:
+        "200":
+          description: "User authenticated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTIzZS00NTY3LWU4OWItMTJkMy1hNDU2LTQyNjYxNDE3NDAwMCIsImV4cCI6MTY4ODg0ODAwMH0.abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890"
+                  refresh:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTIzZS00NTY3LWU4OWItMTJkMy1hNDU2LTQyNjYxNDE3NDAwMCIsImV4cCI6MTY4ODg0ODAwMH0.abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        name:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          example: "johndoe@email.com"
+      required:
+        - id
+        - name
+        - email
+
+    RegisterUser:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          example: "johndoe@email.com"
+        password:
+          type: string
+          format: password
+          example: "123456"
+      required:
+        - name
+        - email
+        - password
+
+    BadRequest:
+      type: object
+      properties:
+        code:
+          type: string
+          example: "400"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Missing email"
+              path:
+                type: string
+                example: "email"
+      required:
+        - code
+        - errors
+    LoginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: "johndoe@email.com"
+        password:
+          type: string
+          format: password
+          example: "123456"
+      required:
+        - email
+        - password
