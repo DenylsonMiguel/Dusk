@@ -16,7 +16,7 @@ export function errorParser(
     if (err instanceof SyntaxError && "body" in err)
         return res.status(400).json({
             error: "Invalid JSON",
-            message: "O corpo da requisição precisa ser um JSON válido",
+            message: "The request body could be a valid json",
         });
 
     logger.error(`Error: ${err}`);

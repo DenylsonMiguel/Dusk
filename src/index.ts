@@ -8,6 +8,10 @@ import { errorParser } from "./middlewares/errorParser.js";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+
+const swaggerDocument = YAML.load("./src/config/swagger/swagger.yaml");
 const app = express();
 
 app.use(express.json());
@@ -29,6 +33,9 @@ app.get("/health", (req: Request, res: Response) => {
     res.json({ status: "ok" });
 });
 app.use("/auth", authRoutes);
+
+app.use("/docs", swaggerUi.serve);
+app.get("/docs", swaggerUi.setup(swaggerDocument));
 
 app.use(notFound);
 app.use(errorParser);
