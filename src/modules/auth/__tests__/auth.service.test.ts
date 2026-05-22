@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, beforeAll } from "vitest";
 import { AuthService } from "../auth.service.js";
 import type { UserRepository } from "../../../repositories/user/repository.js";
 import type { UserResponseDTO } from "../../../entities/user.js";
