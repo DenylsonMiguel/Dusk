@@ -48,8 +48,8 @@ export class AuthService {
             throw new Unauthorized("Invalid email or password");
 
         if (!process.env.ACCESS_SECRET) {
-            logger.error("Environment variable JWT_SECRET is missing");
-            throw new Error("Environment variable JWT_SECRET not found");
+            logger.error("Environment variable ACCESS_SECRET is missing");
+            throw new Error("Environment variable ACCESS_SECRET not found");
         }
 
         const access = jwt.sign(

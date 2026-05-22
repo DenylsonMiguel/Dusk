@@ -44,6 +44,11 @@ beforeEach(() => {
     vi.clearAllMocks();
 });
 
+beforeAll(() => {
+  process.env.ACCESS_SECRET = "test-access-secret";
+  process.env.REFRESH_SECRET = "test-refresh-secret";
+});
+
 describe("AuthService.register", () => {
     it("should create a user and return public data", async () => {
         vi.mocked(mockUserRepository.findByEmail).mockResolvedValue(null);
