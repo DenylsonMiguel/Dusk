@@ -33,7 +33,7 @@ export class AuthService {
     async login(data: {
         email: string;
         password: string;
-    }): Promise<{ access: string; refresh: string }> {
+    }): Promise<{ accesstoken: string; refreshtoken: string }> {
         const user = await this.userRepository.findByEmail(data.email);
 
         let invalidCredentials = false;
