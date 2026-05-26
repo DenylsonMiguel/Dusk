@@ -73,7 +73,7 @@ yarn dev
 If everything is working correctly, you should see something similar to:
 
 ```bash
-[LOG] - Server started on port 3000
+[LOG] - Server started on port <port>
 [LOG] - Database initialized successfully
 ```
 
@@ -82,7 +82,7 @@ If everything is working correctly, you should see something similar to:
 Once the server is running, you can access the interactive API documentation at:
 
 ```
-http://localhost:3000/docs
+/docs
 ```
 
 This Swagger UI interface allows you to explore all available endpoints, test requests, and view the complete API specification in real-time.
