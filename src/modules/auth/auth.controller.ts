@@ -23,9 +23,11 @@ export class AuthController {
         const result = loginSchema.safeParse(req.body);
         if (!result.success) return parse(result, res);
 
-        const { access, refresh } = await this.service.login(result.data);
+        const { accesstoken, refreshtoken } = await this.service.login(
+            result.data,
+        );
 
-        return respond({ code: "SUCCESS", access, refresh }, res);
+        return respond({ code: "SUCCESS", accesstoken, refreshtoken }, res);
     };
 }
 
