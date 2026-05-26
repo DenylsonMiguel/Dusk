@@ -45,8 +45,8 @@ beforeEach(() => {
 });
 
 beforeAll(() => {
-  process.env.ACCESS_SECRET = "test-access-secret";
-  process.env.REFRESH_SECRET = "test-refresh-secret";
+    process.env.ACCESS_SECRET = "test-access-secret";
+    process.env.REFRESH_SECRET = "test-refresh-secret";
 });
 
 describe("AuthService.register", () => {
@@ -128,8 +128,8 @@ describe("AuthService.login", () => {
         });
 
         expect(result).toMatchObject({
-            access: expect.any(String),
-            refresh: expect.any(String),
+            accesstoken: expect.any(String),
+            refreshtoken: expect.any(String),
         });
     });
 

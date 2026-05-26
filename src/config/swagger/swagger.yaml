@@ -59,10 +59,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  access:
+                  accesstoken:
                     type: string
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTIzZS00NTY3LWU4OWItMTJkMy1hNDU2LTQyNjYxNDE3NDAwMCIsImV4cCI6MTY4ODg0ODAwMH0.abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890"
-                  refresh:
+                  refreshtoken:
                     type: string
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTIzZS00NTY3LWU4OWItMTJkMy1hNDU2LTQyNjYxNDE3NDAwMCIsImV4cCI6MTY4ODg0ODAwMH0.abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890"
         "400":

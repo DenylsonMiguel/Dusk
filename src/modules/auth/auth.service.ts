@@ -33,7 +33,7 @@ export class AuthService {
     async login(data: {
         email: string;
         password: string;
-    }): Promise<{ access: string; refresh: string }> {
+    }): Promise<{ accesstoken: string; refreshtoken: string }> {
         const user = await this.userRepository.findByEmail(data.email);
 
         let invalidCredentials = false;
@@ -52,7 +52,7 @@ export class AuthService {
             throw new Error("Environment variable ACCESS_SECRET not found");
         }
 
-        const access = jwt.sign(
+        const accesstoken = jwt.sign(
             {
                 email: user!.email,
                 id: user!._id as unknown as string,
@@ -62,13 +62,13 @@ export class AuthService {
             { expiresIn: "15m" },
         );
 
-        const refresh = await this.refreshTokenRepository.create(
+        const refreshtoken = await this.refreshTokenRepository.create(
             user!._id as unknown as string,
         );
 
         return {
-            access,
-            refresh,
+            accesstoken,
+            refreshtoken,
         };
     }
 }
