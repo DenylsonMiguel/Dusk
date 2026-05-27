@@ -19,6 +19,9 @@ const mockUserRepository = {
     create: vi.fn(),
     findByEmail: vi.fn(),
     findAll: vi.fn(),
+    incLoginAttempts: vi.fn(),
+    resetLoginAttempts: vi.fn(),
+    lockAccount: vi.fn(),
 } as unknown as UserRepository;
 const mockRefreshTokenRepository = {
     create: vi.fn(),
@@ -38,6 +41,7 @@ const fakeDbUser: UserResponseDTO = {
     name: "Deny",
     email: "deny@email.com",
     password: "hashed_password",
+    loginAttempts: 0,
 };
 
 beforeEach(() => {
@@ -113,6 +117,7 @@ describe("AuthService.login", () => {
                 password: "wrong_password",
             }),
         ).rejects.toThrow(Unauthorized);
+        expect(mockUserRepository.incLoginAttempts).toHaveBeenCalledWith(fakeDbUser._id);
     });
 
     it("should return access and refresh tokens on successful login", async () => {
@@ -145,5 +150,43 @@ describe("AuthService.login", () => {
         expect(mockRefreshTokenRepository.create).toHaveBeenCalledWith(
             fakeDbUser._id,
         );
+    });
+
+    it("should throw Unauthorized if the account is locked", async () => {
+        const lockedUser = { ...fakeDbUser, lockUntil: Date.now() + 10000 };
+        vi.mocked(mockUserRepository.findByEmail).mockResolvedValue(lockedUser);
+
+        await expect(
+            service.login({
+                email: "deny@email.com",
+                password: "senha123",
+            }),
+        ).rejects.toThrow("Account locked. Please try again later.");
+    });
+
+    it("should lock the account after 5 failed attempts", async () => {
+        const almostLockedUser = { ...fakeDbUser, loginAttempts: 4 };
+        vi.mocked(mockUserRepository.findByEmail).mockResolvedValue(almostLockedUser);
+        vi.mocked(bcrypt.compare).mockResolvedValue(false as never);
+
+        await expect(
+            service.login({
+                email: "deny@email.com",
+                password: "wrong_password",
+            }),
+        ).rejects.toThrow("Account locked. Please try again later.");
+
+        expect(mockUserRepository.lockAccount).toHaveBeenCalled();
+    });
+
+    it("should reset login attempts on successful login", async () => {
+        const userWithAttempts = { ...fakeDbUser, loginAttempts: 2 };
+        vi.mocked(mockUserRepository.findByEmail).mockResolvedValue(userWithAttempts);
+        vi.mocked(bcrypt.compare).mockResolvedValue(true as never);
+        vi.mocked(mockRefreshTokenRepository.create).mockResolvedValue("token");
+
+        await service.login({ email: "deny@email.com", password: "senha123" });
+
+        expect(mockUserRepository.resetLoginAttempts).toHaveBeenCalledWith(fakeDbUser._id);
     });
 });
