@@ -71,6 +71,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BadRequest"
+        "401":
+          description: "Unauthorized - Invalid credentials or account locked"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid email or password"
 
 components:
   schemas:

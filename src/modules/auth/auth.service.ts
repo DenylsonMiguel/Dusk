@@ -36,16 +36,29 @@ export class AuthService {
     }): Promise<{ accesstoken: string; refreshtoken: string }> {
         const user = await this.userRepository.findByEmail(data.email);
 
-        let invalidCredentials = false;
-        if (!user) invalidCredentials = true;
+        if (!user) throw new Unauthorized("Invalid email or password");
 
-        const isPasswordValid = await bcrypt.compare(
-            data.password,
-            user ? user.password : "",
-        );
+        if (user.lockUntil && user.lockUntil > Date.now()) {
+            throw new Unauthorized("Account locked. Please try again later.");
+        }
 
-        if (invalidCredentials || !isPasswordValid)
+        const isPasswordValid = await bcrypt.compare(data.password, user.password);
+
+        if (!isPasswordValid) {
+            await this.userRepository.incLoginAttempts(user._id);
+
+            if (user.loginAttempts + 1 >= 5) {
+                const lockUntil = Date.now() + 15 * 60 * 1000;
+                await this.userRepository.lockAccount(user._id, lockUntil);
+                throw new Unauthorized("Account locked. Please try again later.");
+            }
+
             throw new Unauthorized("Invalid email or password");
+        }
+
+        if (user.loginAttempts > 0 || user.lockUntil) {
+            await this.userRepository.resetLoginAttempts(user._id);
+        }
 
         if (!process.env.ACCESS_SECRET) {
             logger.error("Environment variable ACCESS_SECRET is missing");
@@ -54,9 +67,9 @@ export class AuthService {
 
         const accesstoken = jwt.sign(
             {
-                email: user!.email,
-                id: user!._id as unknown as string,
-                name: user!.name,
+                email: user.email,
+                id: user._id,
+                name: user.name,
             },
             process.env.ACCESS_SECRET,
             { expiresIn: "15m" },
@@ -71,4 +84,5 @@ export class AuthService {
             refreshtoken,
         };
     }
+
 }
